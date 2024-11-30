@@ -12,27 +12,27 @@ export function sumCubes(a: number, b: number): number {
   return (a > b) ? 0 : a * a * a + sumCubes(a + 1, b);
 }
 
-export function factorial(a: number): number {
-  return (a === 1 || a === 0) ? a : a * factorial(a - 1)
+function factorial(a: number): number {
+  return (a === 1 || a === 0) ? a : a * factorial(a - 1);
 }
 export function sumFactorial(a: number, b: number): number {
   return (a > b) ? 0 : factorial(a) + sumFactorial(a + 1, b);
 }
 
 
-export const sumMap =
+const sumMap =
   (mapFn: (value: number) => number) =>
     (a: number, b: number): number => {
       return (a > b) ? 0 : mapFn(a) + sumMap(mapFn)(a + 1, b);
     }
 
-export const sumInt2 = sumMap(x => x)
-export const sumSquares2 = sumMap(x => x * x)
-export const sumCubes2 = sumMap(x => x * x * x)
-export const sumFactorial2 = sumMap(x => (x === 1 || x === 0) ? x : x * factorial(x - 1))
+export const sumInt2 = sumMap(x => x);
+export const sumSquares2 = sumMap(x => x * x);
+export const sumCubes2 = sumMap(x => x * x * x);
+export const sumFactorial2 = sumMap(x => (x === 1 || x === 0) ? x : x * factorial(x - 1));
 
 
-/////////////////////////////////////////////// PRODUCT //////////////////////////////////////////////////////////////
+////////////////////////////////////// PRODUCT /////////////////////////////////////////////
 
 export function prodInts(a: number, b: number): number {
   return (a > b) ? 1 : a * prodInts(a + 1, b);
@@ -50,20 +50,20 @@ export function prodFactorial(a: number, b: number): number {
   return (a > b) ? 1 : factorial(a) * prodFactorial(a + 1, b);
 }
 
-export const prodMap =
+const prodMap =
   (mapFn: (value: number) => number) =>
     (a: number, b: number): number => {
       return (a > b) ? 1 : mapFn(a) * prodMap(mapFn)(a + 1, b);
     }
 
-export const prodInt2 = prodMap(x => x)
-export const prodSquares2 = prodMap(x => x * x)
-export const prodCubes2 = prodMap(x => x * x * x)
-export const prodFactorial2 = prodMap(x => (x === 1 || x === 0) ? x : x * factorial(x - 1))
+export const prodInt2 = prodMap(x => x);
+export const prodSquares2 = prodMap(x => x * x);
+export const prodCubes2 = prodMap(x => x * x * x);
+export const prodFactorial2 = prodMap(x => (x === 1 || x === 0) ? x : x * factorial(x - 1));
 
 
-//////////////////////////////////// REDUCE///////////////////////////////////////////////
-export const mapReduce = (
+//////////////////////////////////// MAP REDUCE///////////////////////////////////////////////
+const mapReduce = (
   mapFn: (value: number) => number,
   reduceFn: (first: number, second: number) => number,
   zero: number
@@ -71,13 +71,13 @@ export const mapReduce = (
   return (a > b) ? zero : reduceFn(mapFn(a), mapReduce(mapFn, reduceFn, zero)(a + 1, b));
 }
 
-export const mapReduce2 =
+const mapReduce2 =
   (reduceFn: (first: number, second: number) => number,
     zero: number) =>
     (mapFn: (value: number) => number) => (a: number, b: number): number => {
       return (a > b) ? zero : reduceFn(mapFn(a), mapReduce2(reduceFn, zero)(mapFn)(a + 1, b));
     }
 
-export const sumMap2 = mapReduce2((x, y) => x + y, 0)
-export const prodMap2 = mapReduce2((x, y) => x * y, 1)
+export const sumMap2 = mapReduce2((x, y) => x + y, 0);
+export const prodMap2 = mapReduce2((x, y) => x * y, 1);
 // export const prodSquares3 = prodMap2(x => x * x)
