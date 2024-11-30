@@ -25,9 +25,9 @@ export class AppComponent implements OnInit {
     console.log('refactor', parseCloseParenthesis2('())'), parseOpenParenthesis(')('))
     console.log('choice', choice(parseNumber, parseOperator)("(2"), parseOperator2("5"))
     console.log('choiceN', choiceN([parseNumber, parseOpenParenthesis, parseOperator])(")1 + 2("))
-    console.log('zip',zip(parseNumber, parseOperator)("1+2+3"))
+    console.log('zip', zip(parseNumber, parseOperator)("1+2+3"))
     //  console.log(prodSquares3(1, 5))
-    console.log('dountil',doUntil(choiceN([parseNumber,parseOperator]))("1+2+3"));
+    console.log('dountil', doUntil(choiceN([parseNumber, parseOperator]))("1+2+3"));
     console.log('tokenizer', tokenizer(""))
   }
 
