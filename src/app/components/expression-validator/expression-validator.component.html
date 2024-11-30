@@ -22,8 +22,8 @@
     <!-- <div class="form-container"> -->
     <div class="row history-button">
         <button mat-raised-button aria-label="History Button" [disabled]="!historicalValues.length"
-            (click)="showHistory=!showHistory">
-            {{ showHistory ? 'Hide history': 'Show last 5' }}
+            (click)="toggleHistory()">
+            {{ showHistory ? 'Hide last 5 values': 'Show last 5 values' }}
             <mat-icon> {{ showHistory ? 'hide_image' :'history' }}</mat-icon>
         </button>
         <!-- </div> -->
