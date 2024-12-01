@@ -1,7 +1,7 @@
-
 import { failure, Parser, success, Token } from "./interfaces";
 
 /////////////////////////////// PARSERS ////////////////////////////////////////////////
+
 export const parseNumber: Parser = (input: string) => {
     const match = /^\d+/.exec(input);
     if (match) {
@@ -59,7 +59,8 @@ export const parseCharacter: (char: string, tokenType: Token['type']) => Parser 
 export const parseOpenParenthesis2 = parseCharacter('(', "OPEN_PARENTHESIS");
 export const parseCloseParenthesis2 = parseCharacter(')', "CLOSE_PARENTHESIS");
 
-////////////////////////////// CHOICE //////////////////////////////////////////////
+////////////////////////////// CHOICE //////////////////////////////////////////////////
+
 export const choice: (p1: Parser, p2: Parser) => Parser =
     (p1, p2) => {
         return (input: string) => {
@@ -72,6 +73,7 @@ export const choice: (p1: Parser, p2: Parser) => Parser =
             }
         }
     }
+
 export const parseOperator2 = choice(parseCharacter('+', 'OPERATOR'), parseCharacter('-', 'OPERATOR'));
 
 export const choiceN: (parsers: Parser[]) => Parser = (parsers: Parser[]) => {
@@ -87,6 +89,7 @@ export const choiceN: (parsers: Parser[]) => Parser = (parsers: Parser[]) => {
 }
 
 //////////////////////////////// ZIP /////////////////////////////////////////////////////////////
+
 export const zip: (parser1: Parser, parser: Parser) => Parser =
     (parser1, parser2) => {
         return (input: string) => {
@@ -103,7 +106,8 @@ export const zip: (parser1: Parser, parser: Parser) => Parser =
         }
     }
 
-///////////////////////////// DOUNTIL /////////////////////////////////////////////////////////////////
+////////////////////////////////// DOUNTIL ///////////////////////////////////////////////////////////////
+
 const isEmpty: Parser = (input) => {
     if (input == '') return success([], "");
     else return failure("Not an empty string")
@@ -130,14 +134,15 @@ export function doUntil(parser: Parser, acc?: any): Parser {
     }
 }
 
-////////////////////////////////////////////////// TOKINEZER ////////////////////////////////////////////////
+////////////////////////////////////////// TOKENISER ////////////////////////////////////////////////
+
 const parsers = choiceN([
     parseNumber,
     parseOperator,
     parseOpenParenthesis,
     parseCloseParenthesis]
 );
-export const tokenizer = doUntil(parsers);
+export const tokeniser = doUntil(parsers);
 
 
 

@@ -1,5 +1,5 @@
-
 ////////////////////////// SUM ///////////////////////////////////////////////
+
 export function sumInts(a: number, b: number): number {
   return (a > b) ? 0 : a + sumSquares(a + 1, b);
 }
@@ -15,16 +15,15 @@ export function sumCubes(a: number, b: number): number {
 function factorial(a: number): number {
   return (a === 1 || a === 0) ? a : a * factorial(a - 1);
 }
+
 export function sumFactorial(a: number, b: number): number {
   return (a > b) ? 0 : factorial(a) + sumFactorial(a + 1, b);
 }
 
-
 const sumMap =
   (mapFn: (value: number) => number) =>
-    (a: number, b: number): number => {
-      return (a > b) ? 0 : mapFn(a) + sumMap(mapFn)(a + 1, b);
-    }
+    (a: number, b: number): number =>
+      (a > b) ? 0 : mapFn(a) + sumMap(mapFn)(a + 1, b);
 
 export const sumInt2 = sumMap(x => x);
 export const sumSquares2 = sumMap(x => x * x);
@@ -52,9 +51,8 @@ export function prodFactorial(a: number, b: number): number {
 
 const prodMap =
   (mapFn: (value: number) => number) =>
-    (a: number, b: number): number => {
-      return (a > b) ? 1 : mapFn(a) * prodMap(mapFn)(a + 1, b);
-    }
+    (a: number, b: number): number =>
+      (a > b) ? 1 : mapFn(a) * prodMap(mapFn)(a + 1, b);
 
 export const prodInt2 = prodMap(x => x);
 export const prodSquares2 = prodMap(x => x * x);
@@ -63,21 +61,21 @@ export const prodFactorial2 = prodMap(x => (x === 1 || x === 0) ? x : x * factor
 
 
 //////////////////////////////////// MAP REDUCE///////////////////////////////////////////////
+
 const mapReduce = (
   mapFn: (value: number) => number,
   reduceFn: (first: number, second: number) => number,
   zero: number
-) => (a: number, b: number): number => {
-  return (a > b) ? zero : reduceFn(mapFn(a), mapReduce(mapFn, reduceFn, zero)(a + 1, b));
-}
+) =>
+  (a: number, b: number): number =>
+    (a > b) ? zero : reduceFn(mapFn(a), mapReduce(mapFn, reduceFn, zero)(a + 1, b));
 
 const mapReduce2 =
   (reduceFn: (first: number, second: number) => number,
     zero: number) =>
-    (mapFn: (value: number) => number) => (a: number, b: number): number => {
-      return (a > b) ? zero : reduceFn(mapFn(a), mapReduce2(reduceFn, zero)(mapFn)(a + 1, b));
-    }
+    (mapFn: (value: number) => number) =>
+      (a: number, b: number): number =>
+        (a > b) ? zero : reduceFn(mapFn(a), mapReduce2(reduceFn, zero)(mapFn)(a + 1, b));
 
 export const sumMap2 = mapReduce2((x, y) => x + y, 0);
 export const prodMap2 = mapReduce2((x, y) => x * y, 1);
-// export const prodSquares3 = prodMap2(x => x * x)

@@ -29,7 +29,10 @@ export class ExpressionValidatorComponent {
 
   expressionValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
-      if (!control.value) return null;
+      if (!control.value) {
+        this.resultMsg = '';
+        return null;
+      }
       const evaluation = evaluate(control.value);
       if (evaluation.success) {
         this.resultMsg = 'Success! Result of computed expression: ' + evaluation.value;
@@ -47,6 +50,7 @@ export class ExpressionValidatorComponent {
       }
     }
   }
+  
   toggleHistory() {
     this.showHistory = !this.showHistory;
   }
