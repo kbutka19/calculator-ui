@@ -13,7 +13,7 @@ export const parseNumber: Parser = (input: string) => {
 }
 
 export const parseOperator: Parser = (input: string) => {
-    const match = /^\+|-/.exec(input);
+    const match = /^[\+\-]/.exec(input);
     if (match) {
         return success([{
             type: 'OPERATOR', value: match[0]
