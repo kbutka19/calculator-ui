@@ -78,13 +78,14 @@ export const parseOperator2 = choice(parseCharacter('+', 'OPERATOR'), parseChara
 
 export const choiceN: (parsers: Parser[]) => Parser = (parsers: Parser[]) => {
     return (input: string) => {
-        for (let i = 0; i < parsers.length; i++) {
-            const parsed = parsers[i](input);
-            if (parsed.success) {
-                return parsed;
-            }
+        if (!parsers.length) {
+            return failure('Parsers array should not be empty');
         }
-        return failure('Choice parser: All choices failed on input');
+        const finalParser = parsers.reduce((acc, parser) =>
+            choice(acc, parser)
+    )
+        const result = finalParser(input);
+        return result.success ? result : failure('Choice parser: All choices failed on input');
     }
 }
 
@@ -113,21 +114,13 @@ const isEmpty: Parser = (input) => {
     else return failure("Not an empty string")
 }
 
-export function doUntil(parser: Parser, acc?: any): Parser {
-    if (!acc) {
-        acc = {
-            success: true,
-            value: [],
-            rest: ''
-        }
-    }
+export function doUntil(parser: Parser): Parser {
     return (input: string) => {
-        if (isEmpty(input).success) return acc;
-        const parsed = parser(input);
-        if (parsed.success) {
-            acc.value.push(...parsed.value)
-            acc.rest = parsed.rest
-            return doUntil(parser, acc)(parsed.rest);
+     if (isEmpty(input).success) return success([], "");
+        const selectedParser = zip(parser, doUntil(parser));
+        const result = selectedParser(input);
+        if (result.success) {
+            return result;
         } else {
             return failure('Choice parser: All choices failed on input');
         }
@@ -143,8 +136,3 @@ const parsers = choiceN([
     parseCloseParenthesis]
 );
 export const tokeniser = doUntil(parsers);
-
-
-
-
-
